@@ -18,6 +18,8 @@
 
 Route::group(['prefix' => 'api/v1'], function(){
     Route::resource('items', 'ItemsController');
+    Route::resource('users', 'UserController');
+
 });
 
 Route::get('/', function () {
@@ -26,5 +28,7 @@ Route::get('/', function () {
 
 Route::auth();
 
-Route::resource('items', 'ItemsController');
+
+
+
 
