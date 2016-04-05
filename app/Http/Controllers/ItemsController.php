@@ -35,6 +35,46 @@ class ItemsController extends Controller
         ], 200);
     }
 
+    public function store(Request $request)
+    {
+
+        if(! $request->name or ! $request->price or ! $request->description or ! $request->img_address){
+            return Response::json([
+                'error' => [
+                    'message' => 'Please Provide name, price and description and image!'
+                ]
+            ], 422);
+        }
+        $item = Joke::create($request->all());
+        return Response::json([
+            'message' => 'Item Created Succesfully',
+            'data' => $this->transform($item)
+        ]);
+    }
+
+
+
+    public function update(Request $request, $id)
+    {
+        if(! $request->name or ! $request->price or ! $request->description or ! $request->img_address){
+            return Response::json([
+                'error' => [
+                    'message' => 'Please Provide name, price, description and image!'
+                ]
+            ], 422);
+        }
+
+        $item = Item::find($id);
+        $item->name = $request->name;
+        $item->price = $request->price;
+        $item->description = $request->description;
+        $item->img_address = $request->img_address;
+        $item->save();
+
+        return Response::json([
+            'message' => 'Item Updated Succesfully'
+        ]);
+    }
 
     private function transformCollection($items){
         return array_map([$this, 'transform'], $items->toArray());
