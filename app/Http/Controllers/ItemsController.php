@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Response;
 class ItemsController extends Controller
 {
     public function index(){
-        $jokes = Item::all();
+        $items = Item::all();
         return Response::json([
-            'data' => $jokes
+            'data' => $this->transformCollection($items)
         ], 200);
     }
 
@@ -31,7 +31,21 @@ class ItemsController extends Controller
         }
 
         return Response::json([
-            'data' => $item
+            'data' => $this->transform($item)
         ], 200);
     }
-}
+
+
+    private function transformCollection($items){
+        return array_map([$this, 'transform'], $items->toArray());
+    }
+
+    private function transform($item)
+    {
+        return [
+            'name' => $item['name'],
+            'price' => $item['price'],
+            'description' => $item['description']
+        ];
+    }
+    }

@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('is_admin')->defaul(false);
+            $table->unsignedBigInteger('money')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
